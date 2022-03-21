@@ -1,0 +1,9 @@
+@import "../../../../node_modules/bootstrap/dist/css/bootstrap.css";
+
+.tva {
+  font-size: 0.8em;
+}
+.price {
+  color: black;
+  font-weight: bold;
+}

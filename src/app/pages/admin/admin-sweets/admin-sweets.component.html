@@ -1,37 +1,45 @@
 <div class="rounded shadow bg-white p-5">
   <div class="row">
     <div class="col-12 d-flex">
-      <h2 class="font-weight-light"><i class="fas fa-home"></i>  Biens Immobiliers</h2>
-      <button class="btn btn-primary ml-auto" type="button" data-toggle="modal" data-target="#propertiesFormModal" (click)="resetForm()"><i class="fas fa-plus"></i>  Ajouter un Bien</button>
+      <h2 class="font-weight-light">
+        <img class="mr-2" src="../../../assets/icons/caramel-au-beurre.png"
+                                         alt="icon Karamel krow"
+                                         width="44vw">Karamels & Bonbons
+      </h2>
+      <button class="btn btn-primary ml-auto"
+              type="button" data-toggle="modal"
+              data-target="#sweetsFormModal"
+              (click)="resetForm()">
+        <i class="fas fa-plus"></i>Ajouter un Karamel</button>
 
     </div>
   </div>
   <hr class="mt-1 mb-5 bg-dark">
   <div class="row">
-    <div *ngFor="let property of properties; let i = index" class="col-12 shadow-sm p-4 mb-3 bg-light">
+    <div *ngFor="let sweet of sweets; let i = index" class="col-12 shadow-sm p-4 mb-3 bg-light">
       <div class="row">
         <div class="col-3">
-          <div *ngFor="let photo of property.photos; let first = first">
+          <div *ngFor="let photo of sweet.photos; let first = first">
             <img *ngIf="first" [src]="photo" class="w-100 rounded shadow-lg">
           </div>
         </div>
         <div class="col-9">
           <div class="d-flex">
-            <h3 class="font-weight-normal">{{ property.title }}</h3>
+            <h3 class="font-weight-normal">{{ sweet.title }}</h3>
             <div class="ml-auto">
-              <button class="btn btn-primary m-1" type="button"  (click)="onEditProperty(property)"><i class="fas fa-edit"></i></button>
-              <button class="btn btn-danger m-1" type="button" (click)="onDeleteproperty(i)"><i class="fas fa-trash-alt"></i></button>
+              <button class="btn btn-primary m-1" type="button"  (click)="onEditSweet(sweet)"><i class="fas fa-edit"></i></button>
+              <button class="btn btn-danger m-1" type="button" (click)="onDeleteSweet(i)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </div>
           <p>
-            {{ property.category }} <span *ngIf="property.surface && property.surface !== '' "> de {{ property.surface }} m2,</span> <span *ngIf="property.rooms && property.rooms !== '' "> avec {{ property.rooms }} pièce(s).</span>
+            {{ sweet.category }} <span *ngIf="sweet.height && sweet.height !== '' "> de {{ sweet.height }} Kg</span>
           </p>
-          <p *ngIf="property.price && property.price !== '' ">
-            {{ property.price }} €
+          <p *ngIf="sweet.price && sweet.price !== '' ">
+            {{ sweet.price }} €
           </p>
           <p>
-            <span *ngIf="property.sold" class="text-success">Vendu !</span>
-            <span *ngIf="!property.sold" class="text-danger">A Vendre !</span>
+            <span *ngIf="sweet.in_stock" class="text-success">En Stock</span>
+            <span *ngIf="!sweet.in_stock" class="text-danger">Rupture de Stock</span>
           </p>
         </div>
       </div>
@@ -41,39 +49,46 @@
 
 <!-- Modal  -->
 
-<div class="modal fade" id="propertiesFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade"
+     id="sweetsFormModal"
+     tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"
+       role="document">
     <div class="modal-content">
-      <form [formGroup]="propertiesForm" (ngSubmit)="onSubmitPropertiesForm()">
+      <form [formGroup]="sweetsForm"
+            (ngSubmit)="onSubmitSweetsForm()">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Edition d'un bien</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Ajout d'un nouveau Karamel</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
+
           <div class="form-group">
-            <input type="text" placeholder="Titre" class="form-control" formControlName="title">
+            <input type="text" placeholder="Nom" class="form-control" formControlName="title">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="inputGroupSelect01">Catégorie</label>
             </div>
             <select class="custom-select" id="inputGroupSelect01" formControlName="category">
-              <option value="Appartement">Appartement</option>
-              <option value="Maison">Maison</option>
+              <option value="En Sachet">En Sachet</option>
+              <option value="En Vrac">En Vrac</option>
             </select>
           </div>
           <div class="form-row">
             <div class="form-group col-6">
-              <input type="text" placeholder="Surface (m2)" class="form-control" formControlName="surface">
+              <input type="text" placeholder="Poids Net (Kg)" class="form-control" formControlName="height">
             </div>
             <div class="form-group col-6">
-              <input type="text" placeholder="Nombre de pièces" class="form-control" formControlName="rooms">
+              <input type="text" placeholder="TVA" class="form-control" formControlName="tva">
             </div>
           </div>
           <div class="form-group">
-            <textarea class="form-control w-100" rows="4" placeholder="Description du Bien" formControlName="description"></textarea>
+            <textarea class="form-control w-100" rows="4" placeholder="Description" formControlName="description"></textarea>
           </div>
           <div class="form-group">
             <input type="text" placeholder="Prix" class="form-control" formControlName="price">
@@ -103,16 +118,16 @@
           </div>
 
           <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="sold">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1" formControlName="in_stock">
             <label class="custom-control-label" for="customSwitch1">
-              <span class="text-success" *ngIf="propertiesForm.value.sold">Vendu !</span>
-              <span class="text-danger" *ngIf="!propertiesForm.value.sold">A Vendre !</span>
+              <span class="text-success" *ngIf="sweetsForm.value.in_stock">En Stock</span>
+              <span class="text-danger" *ngIf="!sweetsForm.value.in_stock">Rupture de Stock</span>
             </label>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-primary" type="submit" [disabled]="propertiesForm.invalid">Enregistrer</button>
+          <button type="button" class="btn btn-primary" type="submit" [disabled]="sweetsForm.invalid">Enregistrer</button>
         </div>
       </form>
     </div>
@@ -122,11 +137,15 @@
 
 <!-- ----------------Delete Property Modal ------------------- -->
 
-<div class="modal fade" id="deletePropertyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="deleteSweetModal"
+     tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ModalLongTitle">Supprimer ce bien ? </h5>
+        <h5 class="modal-title" id="ModalLongTitle">Supprimer ce Karamel ? </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -134,7 +153,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-danger" (click)="onConfirmDeleteproperty()">Supprimer</button>
+        <button type="button" class="btn btn-danger" (click)="onConfirmDeleteSweet()">Supprimer</button>
       </div>
     </div>
   </div>

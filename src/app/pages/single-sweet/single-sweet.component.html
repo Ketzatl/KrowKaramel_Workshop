@@ -1,49 +1,48 @@
-<div class="container py-5" *ngIf="property">
-  <h1 class="display-4 mb-0">{{ property.title }}</h1>
+<div class="container py-5" *ngIf="sweet">
+  <h1 class="display-4 mb-0">{{ sweet.title }}</h1>
   <hr class="bg-dark mb-4 mt-2">
   <div  >
     <div class="col-md-6 mb-4">
-
-      <div *ngIf="property.photos.length === 1">
-        <div *ngFor="let photo of property.photos; let first = first">
+      <div *ngIf="sweet.photos.length === 1">
+        <div *ngFor="let photo of sweet.photos; let first = first">
           <img [src]="photo" *ngIf="first" class="w-100 shadow-lg rounded-lg">
-
         </div>
-
       </div>
 
       <!-- ----------- Caroussel --------------------- -->
 
-      <div *ngIf="property.photos.length > 1">
+      <div *ngIf="sweet.photos.length > 1">
         <div id="carouselExampleControls" class="carousel slide bg-dark shadow-lg rounded-lg" data-ride="carousel">
           <div class="carousel-inner">
-            <div class="carousel-item" *ngFor="let photo of property.photos; let first = first" [ngClass]="{'active': first}" >
+            <div class="carousel-item" *ngFor="let photo of sweet.photos; let first = first" [ngClass]="{'active': first}" >
               <img [src]="photo" class="d-block w-100 shadow-lg rounded">
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+            <span class="sr-only text-info">Previous</span>
           </a>
           <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
+            <span class="sr-only text-info">Next</span>
           </a>
         </div>
-
       </div>
-
     </div>
+
     <div class="col-md-6">
-      <h3 class="font-weight-normal">{{ property.price }} €</h3>
-      <p class="font-weight-light">
-        {{ property.category }} <span *ngIf="property.surface && property.surface !== '' "> de {{ property.surface }} m2,</span> <span *ngIf="property.rooms && property.rooms !== '' "> {{ property.rooms }} pièce(s).</span>
+      <h3 class="font-weight-normal">{{ sweet.price }} €</h3>
+      <p>
+        <span class="text-info" *ngIf="sweet.tva && sweet.tva !== '' ">TVA {{ sweet.tva }}%</span>
       </p>
       <p class="font-weight-light">
-        {{ property.description }}
+        {{ sweet.category }} <span *ngIf="sweet.height && sweet.height !== '' "> de {{ sweet.height }} Kg</span>
       </p>
-      <h3 class="font-weight-normal text-danger" *ngIf="property.sold">Vendu !</h3>
-      <h3 class="font-weight-normal text-success" *ngIf="!property.sold">A Vendre ! </h3>
+      <p class="font-weight-light">
+        {{ sweet.description }}
+      </p>
+      <h3 class="font-weight-normal text-success" *ngIf="sweet.in_stock">En Stock</h3>
+      <h3 class="font-weight-normal text-danger" *ngIf="!sweet.in_stock">Rupture de Stock</h3>
 
     </div>
   </div>

@@ -1,0 +1,40 @@
+<div class="container">
+  <h1 class="display-4 mt-4">Nos Karamels !
+    <img src="../../../assets/icons/caramel-au-beurre.png" alt="icon Karamel krow" width="44vw"></h1>
+  <hr class="mb-4 mt-4 bg-dark">
+  <div class="row mt-5">
+    <div class="col-sm-12 col-md-6 col-lg-4 py-4" *ngFor="let sweet of sweets; let i = index">
+      <div class="card h-100" style="width: 18rem;">
+          <div *ngFor="let photo of sweet.photos; let first = first">
+              <img [src]="photo" *ngIf="first" class="card-img-top">
+          </div>
+        <div class="card-body rounded shadow-lg">
+          <h5 class="card-title text-info bolder">{{ sweet.title }}</h5>
+<!--          <h6 class="text-muted card-subtitle mb-2 text-muted">{{ sweet.category }}</h6>-->
+          <p class="card-text">
+          <p>
+            {{ sweet.category }} <span *ngIf="sweet.height && sweet.height !== '' "> de {{ sweet.height }}Kg</span>
+          </p>
+          <p class="">
+            {{ sweet.description }}
+          </p>
+          <p class="price">
+            {{ sweet.price }} €
+          </p>
+          <p>
+            <span class="text-info text tva" *ngIf="sweet.tva && sweet.tva !== '' ">TVA {{ sweet.tva }}%</span>
+          </p>
+
+          <p [ngStyle]="{color: inStock(i)}">
+            <span *ngIf="!sweet.in_stock">Rupture de Stock !</span>
+            <span *ngIf="sweet.in_stock">En Stock !</span>
+          </p>
+          <div class="text-center">
+            <button class="btn btn-info" [routerLink]="['/sweet', i]" type="button">Plus de détails</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

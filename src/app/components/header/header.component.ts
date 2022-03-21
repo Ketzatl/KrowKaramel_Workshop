@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from '../services/authentication.service';
+import {AuthenticationService} from '../../services/authentication.service';
 import * as firebase from 'firebase';
 
 @Component({
@@ -9,7 +9,7 @@ import * as firebase from 'firebase';
 })
 export class HeaderComponent implements OnInit {
 
-  title = 'Ma Super Agence';
+  title = 'KrowKaramel';
 
   isLoggedIn = false;
 

@@ -1,39 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Property } from '../interfaces/property';
+import { Sweet } from '../interfaces/sweet';
 import * as firebase from 'firebase';
 import {newArray} from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PropertiesService {
+export class SweetsService {
 
-  properties: Property[] = [];
+  sweets: Sweet[] = [];
 
-  propertiesSubject = new Subject<Property[]>();
+  sweetsSubject = new Subject<Sweet[]>();
 
   constructor() { }
 
-  emitProperties() {
-    this.propertiesSubject.next(this.properties);
+  emitSweets() {
+    this.sweetsSubject.next(this.sweets);
   }
 
-  saveProperties() {
-    firebase.database().ref('/properties').set(this.properties);
+  saveSweets() {
+    firebase.database().ref('/sweets').set(this.sweets);
   }
 
-  getProperties() {
-    firebase.database().ref('/properties').on('value', (data) => {
-      this.properties = data.val() ? data.val() : [];
-      this.emitProperties();
+  getSweets() {
+    firebase.database().ref('/sweets').on('value', (data) => {
+      this.sweets = data.val() ? data.val() : [];
+      this.emitSweets();
     });
   }
 
-  getSingleProperties(id) {
+  getSingleSweets(id) {
     return new Promise(
       (resolve, reject) => {
-        firebase.database().ref('/properties/' + id).once('value').then(
+        firebase.database().ref('/sweets/' + id).once('value').then(
           (data) => {
             resolve(data.val());
           }
@@ -46,23 +46,23 @@ export class PropertiesService {
     );
   }
 
-  createProperty(property: Property) {
-    this.properties.push(property);
-    this.saveProperties();
-    this.emitProperties();
+  createSweet(property: Sweet) {
+    this.sweets.push(property);
+    this.saveSweets();
+    this.emitSweets();
   }
 
-  deleteProperty(index) {
-    this.properties.splice(index, 1);
-    this.saveProperties();
-    this.emitProperties();
+  deleteSweet(index) {
+    this.sweets.splice(index, 1);
+    this.saveSweets();
+    this.emitSweets();
   }
 
-  updateProperty(property: Property, index) {
-    /*this.properties[index] = property;
+  updateSweet(property: Sweet, index) {
+    /*this.sweets[index] = property;
     this.saveProperties();
     this.emitProperties();*/
-    firebase.database().ref('/properties/' + index).update(property).catch(
+    firebase.database().ref('/sweets/' + index).update(property).catch(
       (error) => {
         console.log(error);
       }
@@ -74,7 +74,7 @@ export class PropertiesService {
       (resolve, reject) => {
         const uniqueId = Date.now().toString();
         const fileName = uniqueId + file.name;
-        const upload = firebase.storage().ref().child('images/properties/' + fileName).put(file);
+        const upload = firebase.storage().ref().child('images/sweets/' + fileName).put(file);
         upload.on(firebase.storage.TaskEvent.STATE_CHANGED,
           () => {
               console.log('Chargement...');
